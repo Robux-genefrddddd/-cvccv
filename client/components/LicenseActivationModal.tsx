@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import {
   Dialog,
   DialogContent,
@@ -15,6 +18,7 @@ export function LicenseActivationModal({
   isOpen,
   onClose,
 }: LicenseActivationModalProps) {
+  const { user } = useAuth();
   const [licenseKey, setLicenseKey] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -25,13 +29,21 @@ export function LicenseActivationModal({
       return;
     }
 
+    if (!user?.uid) {
+      toast.error("Vous devez être connecté");
+      return;
+    }
+
     setLoading(true);
     try {
       // Call your license activation API
       const response = await fetch("/api/activate-license", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ licenseKey: licenseKey.trim() }),
+        body: JSON.stringify({
+          licenseKey: licenseKey.trim(),
+          userId: user.uid,
+        }),
       });
 
       if (!response.ok) {
@@ -43,6 +55,16 @@ export function LicenseActivationModal({
         }
         return;
       }
+
+      const data = await response.json();
+
+      // Update local user data in Firestore to trigger auth context refresh
+      await updateDoc(doc(db, "users", user.uid), {
+        messagesUsed: 0,
+        messagesLimit: data.messageLimit,
+        plan: data.plan,
+        licenseKey: licenseKey.trim(),
+      });
 
       setSuccess(true);
       toast.success("Licence activée avec succès!");
