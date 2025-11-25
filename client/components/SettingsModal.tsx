@@ -47,8 +47,8 @@ export function SettingsModal({ isOpen, onOpenChange }: SettingsModalProps) {
             <div className="flex items-center gap-3">
               <Moon size={18} className="text-foreground/70" />
               <div>
-                <p className="text-sm font-medium text-foreground">Dark Mode</p>
-                <p className="text-xs text-foreground/50">Always enabled</p>
+                <p className="text-sm font-medium text-foreground">Mode Sombre</p>
+                <p className="text-xs text-foreground/50">Toujours activé</p>
               </div>
             </div>
             <div className="w-10 h-6 bg-white/20 rounded-full flex items-center justify-end p-1 cursor-pointer">
@@ -67,7 +67,7 @@ export function SettingsModal({ isOpen, onOpenChange }: SettingsModalProps) {
                 <p className="text-sm font-medium text-foreground">
                   Notifications
                 </p>
-                <p className="text-xs text-foreground/50">In-app alerts</p>
+                <p className="text-xs text-foreground/50">Alertes en application</p>
               </div>
             </div>
             <div
@@ -92,9 +92,9 @@ export function SettingsModal({ isOpen, onOpenChange }: SettingsModalProps) {
               <Lock size={18} className="text-foreground/70" />
               <div>
                 <p className="text-sm font-medium text-foreground">
-                  Email Updates
+                  Mises à Jour Email
                 </p>
-                <p className="text-xs text-foreground/50">Weekly digest</p>
+                <p className="text-xs text-foreground/50">Résumé hebdomadaire</p>
               </div>
             </div>
             <div
@@ -119,9 +119,9 @@ export function SettingsModal({ isOpen, onOpenChange }: SettingsModalProps) {
               <Volume2 size={18} className="text-foreground/70" />
               <div>
                 <p className="text-sm font-medium text-foreground">
-                  Sound Effects
+                  Effets Sonores
                 </p>
-                <p className="text-xs text-foreground/50">Message alerts</p>
+                <p className="text-xs text-foreground/50">Alertes de message</p>
               </div>
             </div>
             <div
@@ -139,14 +139,14 @@ export function SettingsModal({ isOpen, onOpenChange }: SettingsModalProps) {
 
           {/* Privacy */}
           <div className="p-3 hover:bg-white/5 rounded-lg transition-colors">
-            <p className="text-sm font-medium text-foreground mb-2">Privacy</p>
+            <p className="text-sm font-medium text-foreground mb-2">Confidentialité</p>
             <select
               value={settings.privacy}
               onChange={(e) => handlePrivacyChange(e.target.value)}
               className="w-full bg-background border border-white/30 rounded-lg px-3 py-2 text-foreground text-sm focus:outline-none focus:border-white transition-colors"
             >
-              <option value="private">Private</option>
-              <option value="friends">Friends Only</option>
+              <option value="private">Privé</option>
+              <option value="friends">Amis Seulement</option>
               <option value="public">Public</option>
             </select>
           </div>
@@ -154,8 +154,7 @@ export function SettingsModal({ isOpen, onOpenChange }: SettingsModalProps) {
           {/* Info */}
           <div className="p-3 bg-white/5 rounded-lg border border-white/10">
             <p className="text-xs text-foreground/60">
-              Settings are saved automatically. Changes may take a few seconds
-              to sync across devices.
+              Les paramètres sont enregistrés automatiquement. Les modifications peuvent prendre quelques secondes pour se synchroniser sur tous les appareils.
             </p>
           </div>
         </div>
