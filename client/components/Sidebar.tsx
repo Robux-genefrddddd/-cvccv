@@ -5,6 +5,7 @@ import {
   Trash2,
   Edit2,
   Loader2,
+  Shield,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
