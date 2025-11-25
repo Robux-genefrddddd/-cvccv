@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { signInWithEmailAndPassword, getDoc, doc } from "firebase/auth";
-import { auth, db } from "@/lib/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import { Mail, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { IPService } from "@/lib/ip-service";
@@ -70,7 +70,7 @@ export default function Login() {
         {/* Header */}
         <div className="text-center mb-8 animate-fadeIn">
           <h1 className="text-3xl font-bold text-white mb-2">Bienvenue</h1>
-          <p className="text-foreground/60">Connectez-vous à votre compte</p>
+          <p className="text-foreground/60">Connectez-vous �� votre compte</p>
         </div>
 
         {/* Form */}
