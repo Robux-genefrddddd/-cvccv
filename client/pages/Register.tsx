@@ -120,8 +120,12 @@ export default function Register() {
         messagesLimit: planLimits[planToUse],
         createdAt: Date.now(),
         isAdmin: false,
-        licenseKey: licenseKey.trim() || undefined,
       };
+
+      // Only add licenseKey if it was provided
+      if (licenseKey.trim()) {
+        (userData as any).licenseKey = licenseKey.trim();
+      }
 
       // Create user document in Firestore
       try {
