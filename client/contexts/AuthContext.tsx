@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
+import { SystemNoticesService, UserBan, MaintenanceNotice } from "@/lib/system-notices";
 
 export type PlanType = "Free" | "Classic" | "Pro";
 
@@ -23,6 +24,8 @@ interface AuthContextType {
   loading: boolean;
   error: string | null;
   isAdmin: boolean;
+  userBan: UserBan | null;
+  maintenanceNotice: MaintenanceNotice | null;
 }
 
 const AuthContext = createContext<AuthContextType>({
