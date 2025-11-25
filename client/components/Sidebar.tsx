@@ -5,6 +5,7 @@ import {
   Trash2,
   Edit2,
   Loader2,
+  Shield,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
@@ -147,9 +148,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     {loading ? "..." : userData?.displayName || "Utilisateur"}
                   </p>
                   {userData?.isAdmin && (
-                    <span className="px-2 py-0.5 text-xs font-bold bg-white/20 border border-white/40 rounded text-white">
-                      Admin
-                    </span>
+                    <Shield size={14} className="text-red-500" title="Admin" />
                   )}
                 </div>
                 <p className="text-xs text-white/50 font-medium">

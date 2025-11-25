@@ -2,6 +2,11 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
+import {
+  SystemNoticesService,
+  UserBan,
+  MaintenanceNotice,
+} from "@/lib/system-notices";
 
 export type PlanType = "Free" | "Classic" | "Pro";
 
@@ -23,6 +28,8 @@ interface AuthContextType {
   loading: boolean;
   error: string | null;
   isAdmin: boolean;
+  userBan: UserBan | null;
+  maintenanceNotice: MaintenanceNotice | null;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -38,6 +45,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [userBan, setUserBan] = useState<UserBan | null>(null);
+  const [maintenanceNotice, setMaintenanceNotice] =
+    useState<MaintenanceNotice | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -48,6 +58,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         if (authUser) {
           setUser(authUser);
+
+          // Check if user is banned
+          const ban = await SystemNoticesService.getUserBan(authUser.uid);
+          if (isMounted) {
+            setUserBan(ban);
+          }
+
+          // Check for active maintenance
+          const maintenance =
+            await SystemNoticesService.getActiveMaintenanceNotice();
+          if (isMounted) {
+            setMaintenanceNotice(maintenance);
+          }
+
           const userDocRef = doc(db, "users", authUser.uid);
           const userDocSnap = await getDoc(userDocRef);
 
@@ -72,6 +96,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } else {
           setUser(null);
           setUserData(null);
+          setUserBan(null);
+          setMaintenanceNotice(null);
         }
       } catch (err) {
         if (!isMounted) return;
@@ -132,6 +158,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         loading,
         error,
         isAdmin: userData?.isAdmin || false,
+        userBan,
+        maintenanceNotice,
       }}
     >
       {children}
