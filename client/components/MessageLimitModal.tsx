@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
+import { useState } from "react";
+import { LicenseActivationModal } from "@/components/LicenseActivationModal";
 
 interface MessageLimitModalProps {
   messagesUsed: number;
@@ -12,14 +12,13 @@ export function MessageLimitModal({
   messagesLimit,
   onUpgrade,
 }: MessageLimitModalProps) {
-  const navigate = useNavigate();
+  const [showLicenseModal, setShowLicenseModal] = useState(false);
 
   const handleUpgrade = () => {
     if (onUpgrade) {
       onUpgrade();
     } else {
-      navigate("/");
-      toast.info("Rendez-vous sur votre profil pour mettre à jour votre plan");
+      setShowLicenseModal(true);
     }
   };
 
