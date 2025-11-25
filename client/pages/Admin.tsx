@@ -291,16 +291,16 @@ export default function Admin() {
                       </tr>
                     </thead>
                     <tbody>
-                      {users.map((user) =>
-                        editingId === user.uid ? (
-                          <tr
-                            key={user.uid}
-                            className="border-b border-white/10 hover:bg-white/5"
-                          >
-                            <td className="px-6 py-4">
-                              <span className="text-white">{user.email}</span>
-                            </td>
-                            <td className="px-6 py-4">
+                      {users.map((user) => (
+                        <tr
+                          key={user.uid}
+                          className="border-b border-white/10 hover:bg-white/5 transition-colors"
+                        >
+                          <td className="px-6 py-4">
+                            <span className="text-white">{user.email}</span>
+                          </td>
+                          <td className="px-6 py-4">
+                            {editingId === user.uid ? (
                               <select
                                 value={editData.plan !== undefined ? editData.plan : (user.plan || "Free")}
                                 onChange={(e) => {
@@ -317,8 +317,12 @@ export default function Admin() {
                                 <option value="Classic">Classic</option>
                                 <option value="Pro">Pro</option>
                               </select>
-                            </td>
-                            <td className="px-6 py-4">
+                            ) : (
+                              <span className="text-foreground/70">{user.plan}</span>
+                            )}
+                          </td>
+                          <td className="px-6 py-4">
+                            {editingId === user.uid ? (
                               <input
                                 type="number"
                                 value={
@@ -332,8 +336,14 @@ export default function Admin() {
                                 }
                                 className="bg-white/10 border border-white/20 rounded px-3 py-2 text-white text-sm w-20"
                               />
-                            </td>
-                            <td className="px-6 py-4">
+                            ) : (
+                              <span className="text-foreground/70">
+                                {user.messagesUsed} / {user.messagesLimit}
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-6 py-4">
+                            {editingId === user.uid ? (
                               <input
                                 type="checkbox"
                                 checked={editData.isAdmin !== undefined ? editData.isAdmin : (user.isAdmin || false)}
@@ -345,8 +355,20 @@ export default function Admin() {
                                 }
                                 className="w-4 h-4"
                               />
-                            </td>
-                            <td className="px-6 py-4">
+                            ) : (
+                              <span
+                                className={
+                                  user.isAdmin
+                                    ? "text-white font-semibold"
+                                    : "text-foreground/70"
+                                }
+                              >
+                                {user.isAdmin ? "Oui" : "Non"}
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-6 py-4">
+                            {editingId === user.uid ? (
                               <div className="flex gap-2">
                                 <button
                                   onClick={handleSaveUser}
@@ -361,48 +383,17 @@ export default function Admin() {
                                   <X size={16} />
                                 </button>
                               </div>
-                            </td>
-                          </tr>
-                        ) : (
-                          <tr
-                            key={user.uid}
-                            className="border-b border-white/10 hover:bg-white/5 transition-colors"
-                          >
-                            <td className="px-6 py-4">
-                              <span className="text-white">{user.email}</span>
-                            </td>
-                            <td className="px-6 py-4">
-                              <span className="text-foreground/70">
-                                {user.plan}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4">
-                              <span className="text-foreground/70">
-                                {user.messagesUsed} / {user.messagesLimit}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4">
-                              <span
-                                className={
-                                  user.isAdmin
-                                    ? "text-white font-semibold"
-                                    : "text-foreground/70"
-                                }
-                              >
-                                {user.isAdmin ? "Oui" : "Non"}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4">
+                            ) : (
                               <button
                                 onClick={() => handleEditUser(user)}
                                 className="p-2 bg-white/10 hover:bg-white/20 rounded text-white transition-colors"
                               >
                                 <Edit2 size={16} />
                               </button>
-                            </td>
-                          </tr>
-                        ),
-                      )}
+                            )}
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
