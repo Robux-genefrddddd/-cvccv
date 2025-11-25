@@ -141,6 +141,15 @@ export class IPService {
     accountCount: number;
     accounts: UserIP[];
   }> {
+    if (!ipAddress) {
+      console.warn("checkIPLimit called with undefined ipAddress");
+      return {
+        isLimitExceeded: false,
+        accountCount: 0,
+        accounts: [],
+      };
+    }
+
     try {
       const q = query(
         collection(db, "user_ips"),
