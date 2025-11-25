@@ -22,8 +22,9 @@ export const handleAIChat: RequestHandler = async (req, res) => {
   const apiKey = process.env.OPENROUTER_API_KEY;
 
   if (!apiKey) {
+    console.error("OPENROUTER_API_KEY not configured");
     return res.status(500).json({
-      error: "API configuration error: OpenRouter API key not configured",
+      error: "Service d'IA non disponible. Veuillez contacter l'administrateur.",
     });
   }
 
