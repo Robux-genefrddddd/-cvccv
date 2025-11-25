@@ -59,9 +59,11 @@ export default function Login() {
         const errorMap: Record<string, string> = {
           "auth/user-not-found": "Cet email n'existe pas. Créez d'abord un compte.",
           "auth/wrong-password": "Mot de passe incorrect",
+          "auth/invalid-credential": "Email ou mot de passe incorrect",
           "auth/invalid-email": "Email invalide",
           "auth/user-disabled": "Ce compte a été désactivé",
           "auth/network-request-failed": "Erreur de connexion réseau. Vérifiez votre connexion internet.",
+          "auth/too-many-requests": "Trop de tentatives de connexion. Veuillez réessayer plus tard.",
         };
 
         if (firebaseError.code) {
@@ -70,12 +72,15 @@ export default function Login() {
           // Handle cases where Firebase returns a message instead of code
           if (firebaseError.message.includes("USER_NOT_FOUND")) {
             message = "Cet email n'existe pas. Créez d'abord un compte.";
-          } else if (firebaseError.message.includes("INVALID_PASSWORD")) {
-            message = "Mot de passe incorrect";
+          } else if (
+            firebaseError.message.includes("INVALID_PASSWORD") ||
+            firebaseError.message.includes("INVALID_LOGIN_CREDENTIALS")
+          ) {
+            message = "Email ou mot de passe incorrect";
           } else if (firebaseError.message.includes("INVALID_EMAIL")) {
             message = "Email invalide";
           } else if (firebaseError.message.includes("USER_DISABLED")) {
-            message = "Ce compte a été désactivé";
+            message = "Ce compte a été d��sactivé";
           } else {
             message = firebaseError.message;
           }
@@ -84,6 +89,7 @@ export default function Login() {
         message = error.message;
       }
 
+      console.error("Login error:", error);
       toast.error(message);
     } finally {
       setLoading(false);
