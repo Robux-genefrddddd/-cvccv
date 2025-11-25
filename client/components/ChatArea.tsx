@@ -2,6 +2,7 @@ import { Send, Smile, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { MessagesService, Message } from "@/lib/messages";
+import { AIService } from "@/lib/ai";
 import { toast } from "sonner";
 import {
   Popover,
