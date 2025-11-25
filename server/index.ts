@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleGetIP, handleCheckVPN } from "./routes/ip-detection";
+import { handleActivateLicense } from "./routes/license";
 
 export function createServer() {
   const app = express();
@@ -23,6 +24,9 @@ export function createServer() {
   // IP detection routes
   app.get("/api/get-ip", handleGetIP);
   app.post("/api/check-vpn", handleCheckVPN);
+
+  // License activation route
+  app.post("/api/activate-license", handleActivateLicense);
 
   return app;
 }
