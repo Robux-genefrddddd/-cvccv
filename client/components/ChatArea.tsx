@@ -41,7 +41,7 @@ export function ChatArea() {
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-background">
+    <div id="chat-area" className="flex-1 flex flex-col bg-background">
       {/* Main Content Area */}
       <div className="flex-1 overflow-y-auto flex items-center justify-center p-6 animate-fadeIn">
         <div className="text-center">
