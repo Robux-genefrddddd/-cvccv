@@ -302,7 +302,7 @@ export default function Admin() {
                             </td>
                             <td className="px-6 py-4">
                               <select
-                                value={editData.plan || user.plan}
+                                value={editData.plan !== undefined ? editData.plan : (user.plan || "Free")}
                                 onChange={(e) => {
                                   const plan = e.target.value as PlanType;
                                   setEditData({
