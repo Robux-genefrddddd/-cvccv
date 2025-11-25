@@ -26,11 +26,11 @@ import {
   AlertCircle,
   Clock,
   BarChart3,
+  Plus,
 } from "lucide-react";
 import { toast } from "sonner";
 import { UserData, PlanType } from "@/contexts/AuthContext";
 import {
-  generateLicenseKey,
   getAllLicenses,
   deactivateLicense,
   LicenseKey,
@@ -43,6 +43,7 @@ import {
 } from "@/lib/system-notices";
 import AdminUsersList from "@/components/AdminUsersList";
 import AdminBanManagement from "@/components/AdminBanManagement";
+import { GenerateLicenseModal } from "@/components/GenerateLicenseModal";
 
 export default function Admin() {
   const { userData } = useAuth();
