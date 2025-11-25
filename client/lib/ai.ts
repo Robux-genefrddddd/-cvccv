@@ -65,15 +65,31 @@ export class AIService {
         }),
       });
 
-      // Read body once and reuse it
-      const data = await response.json();
-
+      // Check status before reading body
       if (!response.ok) {
-        throw new Error(data.error || "Erreur API");
+        const contentType = response.headers.get("content-type");
+        let errorMessage = `API error: ${response.status}`;
+
+        if (contentType && contentType.includes("application/json")) {
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.error || errorMessage;
+          } catch (parseError) {
+            console.error("Failed to parse error response:", parseError);
+          }
+        }
+
+        throw new Error(errorMessage);
       }
 
+      // Only read body if status is ok
+      const data = await response.json();
       return data.content || "Pas de réponse";
     } catch (error) {
+      if (error instanceof SyntaxError && error.message.includes("body stream")) {
+        throw new Error("Erreur serveur: réponse invalide. Veuillez réessayer.");
+      }
+
       throw error instanceof Error
         ? error
         : new Error("Erreur lors de la requête IA");
