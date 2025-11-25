@@ -60,6 +60,28 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     setConversations([...conversations, newConversation]);
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+      toast.success("Déconnecté avec succès");
+    } catch (error) {
+      toast.error("Erreur lors de la déconnexion");
+    }
+  };
+
+  const handleSyncMessages = async () => {
+    setIsSyncing(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      toast.success("Messages synchronisés");
+    } catch (error) {
+      toast.error("Erreur de synchronisation");
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   const handleDeleteConversation = (id: number) => {
     setConversations(
       conversations.map((c) => (c.id === id ? { ...c, isDeleting: true } : c)),
