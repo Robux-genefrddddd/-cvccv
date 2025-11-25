@@ -255,7 +255,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         >
           <button className="w-full flex items-center justify-center gap-2 px-3 py-2 text-foreground/70 hover:text-foreground border-2 border-red-500/50 hover:border-red-500 hover:bg-red-500/10 transition-all text-xs font-medium rounded-lg hover:scale-105 transform">
             <LogOut size={16} />
-            <span>Sign out</span>
+            <span>Se déconnecter</span>
           </button>
         </div>
       </aside>
