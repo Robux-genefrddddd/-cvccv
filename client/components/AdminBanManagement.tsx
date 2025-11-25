@@ -409,7 +409,7 @@ export default function AdminBanManagement({ users }: AdminBanManagementProps) {
             ) : (
               ipBans.map((ban) => (
                 <div
-                  key={ban.id}
+                  key={`ip-ban-${ban.id}`}
                   className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-3"
                 >
                   <p className="text-xs text-white font-mono font-medium truncate">
