@@ -198,6 +198,43 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </button>
         </div>
       </aside>
+
+      {/* Edit Conversation Modal */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="bg-card border-2 border-white rounded-xl">
+          <DialogHeader>
+            <DialogTitle className="text-foreground">Edit Conversation</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <input
+              type="text"
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              placeholder="Conversation name..."
+              className="w-full bg-background border border-white/30 rounded-lg px-4 py-2 text-foreground placeholder-foreground/40 focus:outline-none focus:border-white transition-colors"
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleSaveEdit();
+                }
+              }}
+            />
+          </div>
+          <DialogFooter>
+            <button
+              onClick={() => setIsDialogOpen(false)}
+              className="px-4 py-2 text-foreground/70 border border-white/30 rounded-lg hover:bg-white/5 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSaveEdit}
+              className="px-4 py-2 bg-white/20 text-foreground border border-white rounded-lg hover:bg-white/30 transition-colors font-medium"
+            >
+              Save
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
