@@ -9,12 +9,16 @@ import {
 } from "@/lib/system-notices";
 
 export type PlanType = "Free" | "Classic" | "Pro";
+export type UserRole = "user" | "moderator" | "admin";
+export type UserCategory = "individual" | "business" | "organization" | "developer";
 
 export interface UserData {
   uid: string;
   email: string;
   displayName: string;
   plan: PlanType;
+  role: UserRole;
+  category: UserCategory;
   messagesUsed: number;
   messagesLimit: number;
   createdAt: number;
