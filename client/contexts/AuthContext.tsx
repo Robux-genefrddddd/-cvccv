@@ -152,6 +152,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         loading,
         error,
         isAdmin: userData?.isAdmin || false,
+        userBan,
+        maintenanceNotice,
       }}
     >
       {children}
