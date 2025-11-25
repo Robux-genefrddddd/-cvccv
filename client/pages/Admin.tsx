@@ -481,9 +481,9 @@ export default function Admin() {
                       </tr>
                     </thead>
                     <tbody>
-                      {licenses.map((license) => (
+                      {licenses.filter((license) => license && license.key).map((license) => (
                         <tr
-                          key={license.key}
+                          key={`license-${license.key}`}
                           className="border-b border-white/10 hover:bg-white/5 transition-colors"
                         >
                           <td className="px-6 py-4">
