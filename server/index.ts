@@ -4,6 +4,7 @@ import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleGetIP, handleCheckVPN } from "./routes/ip-detection";
 import { handleActivateLicense } from "./routes/license";
+import { handleDailyReset } from "./routes/daily-reset";
 
 export function createServer() {
   const app = express();
@@ -27,6 +28,9 @@ export function createServer() {
 
   // License activation route
   app.post("/api/activate-license", handleActivateLicense);
+
+  // Daily reset route
+  app.post("/api/daily-reset", handleDailyReset);
 
   return app;
 }
