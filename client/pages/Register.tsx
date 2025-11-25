@@ -1,53 +1,43 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import { PlanType, UserData } from "@/contexts/AuthContext";
-import { Mail, Lock, UserPlus, Check } from "lucide-react";
+import { Mail, Lock, UserPlus } from "lucide-react";
 import { toast } from "sonner";
-
-const PLANS = [
-  {
-    name: "Free",
-    price: "0€",
-    messages: 10,
-    features: [
-      "10 messages/mois",
-      "Conversations illimitées",
-      "Support basique",
-    ],
-  },
-  {
-    name: "Classic",
-    price: "9€",
-    messages: 50,
-    features: [
-      "50 messages/mois",
-      "Conversations illimitées",
-      "Support prioritaire",
-    ],
-    popular: true,
-  },
-  {
-    name: "Pro",
-    price: "19€",
-    messages: 999,
-    features: [
-      "Messages illimités",
-      "Conversations illimitées",
-      "Support 24/7",
-    ],
-  },
-];
 
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [selectedPlan, setSelectedPlan] = useState<PlanType>("Free");
+  const [licenseKey, setLicenseKey] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const validateLicenseKey = async (key: string): Promise<{ valid: boolean; plan?: PlanType }> => {
+    if (!key.trim()) {
+      return { valid: false };
+    }
+
+    try {
+      const licenseDoc = await getDoc(doc(db, "licenses", key));
+
+      if (!licenseDoc.exists()) {
+        return { valid: false };
+      }
+
+      const licenseData = licenseDoc.data();
+
+      if (!licenseData.active) {
+        return { valid: false };
+      }
+
+      return { valid: true, plan: licenseData.plan as PlanType };
+    } catch (error) {
+      return { valid: false };
+    }
+  };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,6 +50,22 @@ export default function Register() {
     setLoading(true);
 
     try {
+      let planToUse: PlanType = "Free";
+
+      if (licenseKey.trim()) {
+        const licenseValidation = await validateLicenseKey(licenseKey);
+
+        if (!licenseValidation.valid) {
+          toast.error("Clé de licence invalide ou inactive");
+          setLoading(false);
+          return;
+        }
+
+        if (licenseValidation.plan) {
+          planToUse = licenseValidation.plan;
+        }
+      }
+
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -77,11 +83,12 @@ export default function Register() {
         uid: user.uid,
         email: user.email || "",
         displayName: email.split("@")[0],
-        plan: selectedPlan,
+        plan: planToUse,
         messagesUsed: 0,
-        messagesLimit: planLimits[selectedPlan],
+        messagesLimit: planLimits[planToUse],
         createdAt: Date.now(),
         isAdmin: false,
+        licenseKey: licenseKey.trim() || undefined,
       };
 
       await setDoc(doc(db, "users", user.uid), userData);
