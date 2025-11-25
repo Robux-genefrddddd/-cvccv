@@ -83,15 +83,20 @@ export class IPService {
       const ipRef = doc(collection(db, "user_ips"));
       const now = Timestamp.now();
 
-      await setDoc(ipRef, {
+      const ipData: any = {
         userId,
         email,
         ipAddress,
         lastLogin: now,
         createdAt: now,
         isVPN: vpcCheck.isVPN,
-        vpnProvider: vpcCheck.provider,
-      } as UserIP);
+      };
+
+      if (vpcCheck.provider) {
+        ipData.vpnProvider = vpcCheck.provider;
+      }
+
+      await setDoc(ipRef, ipData as UserIP);
 
       await this.checkIPLimit(ipAddress);
     } catch (error) {
