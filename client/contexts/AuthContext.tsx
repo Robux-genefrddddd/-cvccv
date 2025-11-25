@@ -53,6 +53,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         if (authUser) {
           setUser(authUser);
+
+          // Check if user is banned
+          const ban = await SystemNoticesService.getUserBan(authUser.uid);
+          if (isMounted) {
+            setUserBan(ban);
+          }
+
+          // Check for active maintenance
+          const maintenance = await SystemNoticesService.getActiveMaintenanceNotice();
+          if (isMounted) {
+            setMaintenanceNotice(maintenance);
+          }
+
           const userDocRef = doc(db, "users", authUser.uid);
           const userDocSnap = await getDoc(userDocRef);
 
@@ -77,6 +90,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } else {
           setUser(null);
           setUserData(null);
+          setUserBan(null);
+          setMaintenanceNotice(null);
         }
       } catch (err) {
         if (!isMounted) return;
