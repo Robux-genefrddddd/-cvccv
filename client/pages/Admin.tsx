@@ -862,6 +862,16 @@ export default function Admin() {
           </>
         )}
       </div>
+
+      {/* Generate License Modal */}
+      {userData && (
+        <GenerateLicenseModal
+          isOpen={showGenerateLicenseModal}
+          onClose={() => setShowGenerateLicenseModal(false)}
+          adminUid={userData.uid}
+          onLicenseGenerated={handleLicenseGenerated}
+        />
+      )}
     </div>
   );
 }
