@@ -116,6 +116,8 @@ export default function Register() {
         email: user.email || "",
         displayName: email.split("@")[0],
         plan: planToUse,
+        role: "user",
+        category: "individual",
         messagesUsed: 0,
         messagesLimit: planLimits[planToUse],
         createdAt: Date.now(),
