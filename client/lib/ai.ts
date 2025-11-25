@@ -10,7 +10,7 @@ export interface AIConfig {
 }
 
 const DEFAULT_CONFIG: AIConfig = {
-  model: "openrouter/auto",
+  model: "x-ai/grok-4.1-fast:free",
   systemPrompt: "Tu es un assistant utile et amical. Réponds en français.",
   temperature: 0.7,
   maxTokens: 2048,
