@@ -201,7 +201,7 @@ export default function AdminBanManagement({ users }: AdminBanManagementProps) {
               />
               <datalist id="user-emails">
                 {users?.map?.((user, index) => (
-                  <option key={`user-${user.email || index}`} value={user.email} />
+                  <option key={index} value={user.email} />
                 )) || []}
               </datalist>
             </div>
