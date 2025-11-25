@@ -56,9 +56,8 @@ export function MessageLimitModal({
           {/* Upgrade Button - Always Visible */}
           <button
             onClick={handleUpgrade}
-            className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-white/20 to-white/10 hover:from-white/30 hover:to-white/20 text-white font-bold text-lg rounded-lg border-2 border-white/50 hover:border-white transition-all transform hover:scale-105"
+            className="px-6 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold text-sm rounded-lg border border-white/50 hover:border-white transition-all hover:scale-105"
           >
-            <Zap size={24} />
             Activer une licence
           </button>
 
